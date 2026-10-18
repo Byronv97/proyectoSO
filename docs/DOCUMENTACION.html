@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CPU Scheduler Lab - Documentación</title>
+  <style>
+    @page { size: A4; margin: 18mm; }
+    :root { color: #17324d; font-family: Arial, sans-serif; line-height: 1.55; }
+    body { max-width: 960px; margin: 0 auto; background: #f5f7f4; }
+    main { background: #fff; padding: 42px 58px; }
+    .cover { min-height: 700px; display: flex; flex-direction: column; justify-content: center; border-bottom: 1px solid #d9e1dc; }
+    .eyebrow { color: #df5a40; font: 600 12px monospace; letter-spacing: .15em; }
+    h1 { color: #102a43; font-size: 56px; line-height: 1; margin: 26px 0 15px; }
+    h1 span, h2 { color: #df5a40; }
+    h2 { border-bottom: 2px solid #df5a40; padding-bottom: 7px; margin-top: 42px; }
+    h3 { color: #102a43; margin-top: 28px; }
+    p, li { font-size: 15px; }
+    .subtitle { color: #617483; font-size: 19px; max-width: 600px; }
+    .meta { color: #71808a; margin-top: 45px; font-family: monospace; }
+    .figure { margin: 24px 0 34px; page-break-inside: avoid; }
+    .figure img { display: block; width: 100%; border: 1px solid #d9e1dc; }
+    .caption { color: #71808a; font-size: 12px; margin-top: 7px; }
+    code { background: #edf2ed; padding: 2px 5px; }
+    pre { background: #17324d; color: #e8eeea; padding: 16px; overflow-x: auto; }
+    .note { border-left: 4px solid #df5a40; background: #fff4f0; padding: 12px 16px; }
+    footer { border-top: 1px solid #d9e1dc; color: #71808a; margin-top: 45px; padding-top: 15px; font-size: 12px; }
+    @media print { body { background: #fff; } main { padding: 0; } .cover { min-height: 920px; } }
+  </style>
+</head>
+<body>
+<main>
+  <section class="cover">
+    <div class="eyebrow">SISTEMAS OPERATIVOS / DOCUMENTACIÓN TÉCNICA</div>
+    <h1>CPU Scheduler <span>Lab</span></h1>
+    <p class="subtitle">Simulador educativo de algoritmos de planificación de procesos desarrollado con Angular 21 y TypeScript.</p>
+    <p class="meta">ProyectoSO · Versión Angular 21.2.11</p>
+  </section>
+
+  <h2>1. Descripción</h2>
+  <p>CPU Scheduler Lab permite ingresar procesos, seleccionar un algoritmo de planificación, observar su recorrido en la CPU y consultar las métricas finales. Toda la simulación se ejecuta localmente en el navegador.</p>
+
+  <h2>2. Algoritmos</h2>
+  <h3>FCFS</h3><p>Ejecuta los procesos según su orden de llegada y no interrumpe el proceso actual.</p>
+  <h3>SJF</h3><p>Selecciona el proceso disponible con menor tiempo total de CPU. Es no expropiativo.</p>
+  <h3>SRTF</h3><p>Selecciona el menor tiempo de CPU restante y puede interrumpir el proceso actual.</p>
+  <h3>Round Robin</h3><p>Entrega turnos según un quantum configurable de 1 a 20. Los procesos que no terminan regresan al final de la cola.</p>
+  <h3>Selfish Round Robin</h3><p>Usa los grupos Aceptados y Nuevos. Los aceptados aumentan +1, los nuevos +2 y la variante utiliza quantum 1.</p>
+
+  <h2>3. Flujo del sistema</h2>
+  <div class="figure"><img src="assets/01-menu.png" alt="Captura real del menú de selección de algoritmos"><div class="caption">Figura 1. Captura real del menú principal y selección del algoritmo.</div></div>
+  <div class="figure"><img src="assets/02-procesos.png" alt="Captura real del formulario de entrada de procesos"><div class="caption">Figura 2. Captura real de la tabla editable de procesos y reglas activas.</div></div>
+  <div class="figure"><img src="assets/03-ejecucion.png" alt="Captura real del diagrama de ejecución paso a paso"><div class="caption">Figura 3. Captura real del diagrama de CPU y navegación por pasos.</div></div>
+  <div class="figure"><img src="assets/04-resultados.png" alt="Captura real de la tabla de resultados"><div class="caption">Figura 4. Captura real de la tabla de métricas y promedios.</div></div>
+
+  <h2>4. Entrada y validaciones</h2>
+  <ul><li>Identificador único por proceso.</li><li>Tiempo de llegada entero entre 0 y 20.</li><li>Tiempo de CPU entero entre 1 y 20.</li><li>Quantum entero entre 1 y 20 para Round Robin.</li></ul>
+
+  <h2>5. Métricas</h2>
+  <pre>T Final = último instante de ejecución + 1
+T Retorno = T Final - T Llegada
+T Espera = T Retorno - Tiempo CPU
+T Promedio = T Retorno / Tiempo CPU</pre>
+  <p>La columna T Promedio representa técnicamente el retorno normalizado.</p>
+
+  <h2>6. Recorrido paso a paso</h2>
+  <p>Al ejecutar una simulación se muestra el diagrama completo. La primera pulsación de <strong>Siguiente</strong> activa el modo paso a paso y muestra el primer instante. Las siguientes pulsaciones agregan unidades de CPU. <strong>Anterior</strong> oculta la última unidad visible. La celda activa se marca con un borde oscuro.</p>
+
+  <h2>7. Instalación y pruebas</h2>
+  <pre>npm install --legacy-peer-deps
+npm start
+npm run build
+npm test -- --watch=false</pre>
+  <p>La aplicación se abre en <code>http://localhost:4200/</code>.</p>
+
+  <h2>8. Código fuente</h2>
+  <p>El motor se encuentra en <code>src/app/scheduler.ts</code>. La vista y el estado Angular están en <code>src/app/app.ts</code>, <code>src/app/app.html</code> y <code>src/app/app.css</code>. Las pruebas están en <code>src/app/scheduler.spec.ts</code> y <code>src/app/app.spec.ts</code>.</p>
+  <p>El documento completo del código se genera mediante <code>npm run export:source</code> y se guarda como <code>docs/SCRIPT-FUENTE.md</code>.</p>
+
+  <div class="note"><strong>Nota sobre Selfish Round Robin:</strong> la variante implementada se basa en los pasos reconstruidos del material de clase. El Excel de referencia contenía resultados inconsistentes, por lo que la aplicación recalcula todas las métricas.</div>
+  <footer>CPU Scheduler Lab · Angular 21 · documentación técnica del proyecto</footer>
+</main>
+</body>
+</html>

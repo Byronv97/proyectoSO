@@ -1,0 +1,111 @@
+<main class="app-shell">
+  <header class="hero">
+    <div class="eyebrow">SISTEMAS OPERATIVOS / ANGULAR 21</div>
+    <h1>CPU Scheduler <em>Lab</em></h1>
+    <p>Construye una planificación, observa cada decisión y compara sus resultados.</p>
+  </header>
+
+  <section class="algorithm-picker">
+    <div class="section-heading"><span>01</span><div><h2>Elige un algoritmo</h2><p>La simulación se calcula por unidad de tiempo.</p></div></div>
+    <div class="algorithm-grid">
+      @for (id of algorithms; track id; let index = $index) {
+        <button class="algorithm-card" [class.selected]="algorithm() === id" (click)="selectAlgorithm(id)">
+          <span class="algorithm-number">0{{ index + 1 }}</span>
+          <strong>{{ algorithmInfo[id].name }}</strong>
+          <small>{{ algorithmInfo[id].short }}</small>
+        </button>
+      }
+    </div>
+  </section>
+
+  <section class="workspace">
+    <div class="section-heading"><span>02</span><div><h2>Configura los procesos</h2><p>{{ selected().description }}</p></div></div>
+    <div class="workspace-grid">
+      <div class="panel process-panel">
+        <div class="panel-top"><div><span class="panel-kicker">ENTRADA</span><h3>Tabla de procesos</h3></div><button class="ghost-button" (click)="restoreExample()">Restaurar ejemplo</button></div>
+        <div class="process-table-wrap">
+          <table class="process-table"><thead><tr><th>Proceso</th><th>Llegada</th><th>CPU</th><th aria-label="Acciones"></th></tr></thead>
+            <tbody>
+              @for (process of processes(); track $index; let index = $index) {
+                <tr>
+                  <td><input class="id-input" maxlength="3" [ngModel]="process.id" (ngModelChange)="updateProcess(index, 'id', $event)"></td>
+                  <td><input type="number" min="0" max="20" [ngModel]="process.arrival" (ngModelChange)="updateProcess(index, 'arrival', $event)"></td>
+                  <td><input type="number" min="1" max="20" [ngModel]="process.burst" (ngModelChange)="updateProcess(index, 'burst', $event)"></td>
+                  <td><button class="remove-button" (click)="removeProcess(index)" [attr.aria-label]="'Eliminar ' + process.id">×</button></td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+        <div class="panel-actions"><button class="add-button" (click)="addProcess()">+ Agregar proceso</button><span>{{ processes().length }} procesos cargados</span></div>
+      </div>
+
+      <div class="panel rules-panel"><span class="panel-kicker">REGLAS ACTIVAS</span><h3>{{ selected().name }}</h3><div class="rule-list">
+        @if (algorithm() === 'rr') {
+          <div><b>Quantum</b><label class="quantum-control"><input type="number" min="1" max="20" [ngModel]="config().quantum" (ngModelChange)="updateQuantum($event)"><span>unidades (1–20)</span></label></div>
+          <div><b>Cola</b><span>Listos → Nuevos → Último</span></div>
+        }
+        @if (algorithm() === 'srr') {
+          <div><b>Aceptados</b><span>Prioridad +1</span></div><div><b>Nuevos</b><span>Prioridad +2</span></div><div><b>Quantum</b><span>1 unidad fija</span></div>
+        }
+        @if (algorithm() === 'fcfs') { <div><b>Política</b><span>Orden de llegada</span></div> }
+        @if (algorithm() === 'sjf') { <div><b>Política</b><span>Menor CPU disponible</span></div> }
+        @if (algorithm() === 'srtf') { <div><b>Política</b><span>Menor CPU restante</span></div> }
+      </div><p class="tip">Los colores se mantienen en el diagrama para seguir cada proceso.</p></div>
+    </div>
+    @if (error()) { <div class="error-message">{{ error() }}</div> }
+    <button class="run-button" (click)="runSimulation()">Ejecutar simulación <span>→</span></button>
+  </section>
+
+  @if (result(); as simulation) {
+    @if (currentStep(); as step) {
+      <section class="results-section">
+        <div class="section-heading"><span>03</span><div><h2>Observa la ejecución</h2><p>{{ step.explanation }}</p></div></div>
+        <div class="simulation-controls">
+          <div class="time-badge">
+            @if (isStepping()) { <span>PASO <strong>{{ activeStep() + 1 }}</strong> / {{ simulation.totalTime }} · tiempo {{ activeStep() }}</span> }
+            @else { <span>DIAGRAMA COMPLETO <strong>{{ simulation.totalTime }}</strong> pasos</span> }
+          </div>
+          <div class="control-buttons"><button (click)="showPreviousStep()">← Anterior</button><button (click)="showNextStep()">Siguiente →</button></div>
+        </div>
+
+        <div class="state-strip">
+          @if (algorithm() === 'srr') {
+            <div class="state-group"><span>Aceptados</span><strong>{{ formatQueue(step.accepted, step.priorities) }}</strong></div>
+            <div class="state-group"><span>Nuevos</span><strong>{{ formatQueue(step.newQueue, step.priorities) }}</strong></div>
+          } @else {
+            <div class="state-group"><span>Listos</span><strong>{{ formatQueue(step.ready) }}</strong></div>
+            <div class="state-group"><span>Nuevos</span><strong>{{ formatQueue(step.newArrivals) }}</strong></div>
+            <div class="state-group"><span>Último ejecutado</span><strong>{{ formatQueue(step.lastExecuted ? [step.lastExecuted] : []) }}</strong></div>
+          }
+          <div class="current-process"><span>CPU</span><strong>{{ step.running ?? '—' }}</strong></div>
+        </div>
+
+        <div class="timeline-panel"><div class="timeline-scroll"><div class="timeline" [style.--time-count]="timelineWidth()">
+          <div class="timeline-axis"><div class="row-label">Proceso</div>@for (time of axisSlots(); track time) { <span>{{ time }}</span> }</div>
+          @for (process of processes(); track process.id; let index = $index) {
+            <div class="timeline-row"><div class="row-label"><i [style.background]="processColor(index)"></i>{{ process.id }}</div>
+              @for (time of timeSlots(); track time) {
+                <div class="time-cell" [class.running]="visibleProcessAt(time) === process.id" [class.current-step]="cellIsCurrent(time, process.id)" [class.not-arrived]="time < process.arrival" [style.background]="visibleProcessAt(time) === process.id ? processColor(index) : null">{{ visibleProcessAt(time) === process.id ? process.id : '' }}</div>
+              }
+            </div>
+          }
+          <div class="timeline-row cpu-row"><div class="row-label">CPU</div>
+            @for (time of timeSlots(); track time) {
+              @let runningId = visibleProcessAt(time);
+              <div class="time-cell cpu-cell" [class.current-step]="isStepping() && time === activeStep()" [style.background]="runningId ? processColor(processIndex(runningId)) : null">{{ runningId ?? '·' }}</div>
+            }
+          </div>
+        </div></div></div>
+
+        <div class="results-heading"><div><span class="panel-kicker">RESULTADOS</span><h3>Métricas de la ejecución</h3></div><button class="ghost-button" (click)="clearResult()">Editar entrada</button></div>
+        <div class="metrics-table-wrap"><table class="metrics-table"><thead><tr><th>Proceso</th><th>Llegada</th><th>CPU</th><th>Final</th><th>Retorno</th><th>Espera</th><th title="Retorno / Tiempo CPU">T Promedio</th></tr></thead>
+          <tbody>@for (metric of simulation.metrics; track metric.id; let index = $index) { <tr><td><span class="process-dot" [style.background]="processColor(index)">{{ metric.id }}</span></td><td>{{ metric.arrival }}</td><td>{{ metric.burst }}</td><td class="strong-cell">{{ metric.finish }}</td><td>{{ metric.turnaround }}</td><td>{{ metric.waiting }}</td><td>{{ formatNumber(metric.normalized) }}</td></tr> }</tbody>
+          @if (averages(); as average) { <tfoot><tr><td colspan="3">Promedios</td><td>{{ formatNumber(average.cpu) }}</td><td>{{ formatNumber(average.turnaround) }}</td><td>{{ formatNumber(average.waiting) }}</td><td class="average-cell">{{ formatNumber(average.normalized) }}</td></tr></tfoot> }
+        </table></div>
+      </section>
+    }
+  }
+
+  <footer>CPU Scheduler Lab · Angular 21 · simulación local para aprender planificación de procesos</footer>
+</main>

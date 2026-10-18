@@ -6,6 +6,8 @@ CPU Scheduler Lab es una aplicación web educativa para estudiar la planificaci�
 de procesos en una CPU. Permite ingresar procesos, elegir un algoritmo, observar
 el orden de ejecución y consultar las métricas finales.
 
+Repositorio del proyecto: [github.com/Byronv97/proyectoSO](https://github.com/Byronv97/proyectoSO)
+
 La aplicación fue desarrollada con Angular 21, TypeScript, HTML y CSS. Todo el
 procesamiento se realiza localmente en el navegador; no requiere servidor,
 base de datos ni conexión a una API.

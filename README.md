@@ -3,6 +3,8 @@
 Versión independiente del simulador de planificación de procesos construida
 con Angular 21 y TypeScript.
 
+Repositorio: [github.com/Byronv97/proyectoSO](https://github.com/Byronv97/proyectoSO)
+
 ## Incluye
 
 - FCFS.

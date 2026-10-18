@@ -12,6 +12,65 @@ La aplicación fue desarrollada con Angular 21, TypeScript, HTML y CSS. Todo el
 procesamiento se realiza localmente en el navegador; no requiere servidor,
 base de datos ni conexión a una API.
 
+## Cumplimiento de la consigna
+
+| Requisito | Implementación en el proyecto |
+|---|---|
+| Elegir el lenguaje de desarrollo | Angular 21, TypeScript, HTML y CSS. |
+| Menú para seleccionar algoritmo | Menú con FCFS, SJF, SRTF, Round Robin y Selfish Round Robin. |
+| Más de cinco procesos por defecto | El formulario inicia con siete procesos: A, B, C, D, E, F y G. |
+| Solicitar o administrar cantidad de procesos | Se pueden agregar y eliminar filas desde la tabla de entrada. |
+| Validar tiempo de llegada | Entero entre `0` y `20`; no permite negativos ni valores superiores. |
+| Validar tiempo de CPU | Entero entre `1` y `20`; no permite cero, negativos ni valores superiores. |
+| Solicitar quantum | Round Robin muestra un campo editable de quantum entre `1` y `20`. |
+| Mostrar orden de ejecución con colores | El diagrama y la fila CPU usan un color permanente por proceso. |
+| Mostrar tabla de promedios | La tabla incluye Final, Retorno, Espera, T Promedio y promedios generales. |
+| Entregar ejecutable | Se entrega el build web en `dist/proyectoSO`; puede abrirse mediante `npm start` o servirse localmente. |
+| Entregar código fuente | El código está en `src/` y se documenta en `docs/SCRIPT-FUENTE.md`. |
+
+El proyecto es individual y el repositorio público de entrega es:
+[github.com/Byronv97/proyectoSO](https://github.com/Byronv97/proyectoSO).
+
+## Caso de entrada de referencia
+
+El sistema inicia con el mismo conjunto de procesos usado en el ejemplo de la
+consigna:
+
+| Proceso | T de Llegada | Tiempo de CPU |
+|---|---:|---:|
+| A | 2 | 1 |
+| B | 3 | 5 |
+| C | 0 | 4 |
+| D | 5 | 3 |
+| E | 9 | 2 |
+| F | 7 | 4 |
+| G | 12 | 1 |
+
+## Caso de resultado de referencia
+
+Para SRTF, la secuencia de CPU del caso anterior es:
+
+```text
+C C A C C D D D F E E F G F F B B B B B
+```
+
+Cada letra se representa con un color en el diagrama. Los resultados esperados
+para este caso son:
+
+| Proceso | T Final | T Retorno | T Espera | T Promedio |
+|---|---:|---:|---:|---:|
+| A | 3 | 1 | 0 | 1 |
+| B | 20 | 17 | 12 | 3.40 |
+| C | 5 | 5 | 1 | 1.25 |
+| D | 8 | 3 | 0 | 1 |
+| E | 11 | 2 | 0 | 1 |
+| F | 15 | 8 | 4 | 2 |
+| G | 13 | 1 | 0 | 1 |
+| Promedios | - | 5.29 | 2.43 | 1.52 |
+
+Los valores son calculados por el motor de la aplicación, no escritos manualmente
+en la interfaz.
+
 ## 2. Objetivo
 
 El objetivo es mostrar de manera visual cómo diferentes algoritmos deciden qué

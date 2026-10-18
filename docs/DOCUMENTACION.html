@@ -21,6 +21,9 @@
     .figure { margin: 24px 0 34px; page-break-inside: avoid; }
     .figure img { display: block; width: 100%; border: 1px solid #d9e1dc; }
     .caption { color: #71808a; font-size: 12px; margin-top: 7px; }
+    .requirements { width: 100%; border-collapse: collapse; margin: 18px 0 25px; font-size: 14px; }
+    .requirements th, .requirements td { border-bottom: 1px solid #d9e1dc; padding: 9px 10px; text-align: left; }
+    .requirements th { background: #edf2ed; color: #617483; font-family: monospace; font-size: 11px; text-transform: uppercase; }
     code { background: #edf2ed; padding: 2px 5px; }
     pre { background: #17324d; color: #e8eeea; padding: 16px; overflow-x: auto; }
     .note { border-left: 4px solid #df5a40; background: #fff4f0; padding: 12px 16px; }
@@ -40,6 +43,30 @@
   <h2>1. Descripción</h2>
   <p>CPU Scheduler Lab permite ingresar procesos, seleccionar un algoritmo de planificación, observar su recorrido en la CPU y consultar las métricas finales. Toda la simulación se ejecuta localmente en el navegador.</p>
   <p>Repositorio: <a href="https://github.com/Byronv97/proyectoSO">github.com/Byronv97/proyectoSO</a></p>
+
+  <h2>Cumplimiento de la consigna</h2>
+  <table class="requirements"><thead><tr><th>Requisito</th><th>Implementación</th></tr></thead><tbody>
+    <tr><td>Lenguaje</td><td>Angular 21, TypeScript, HTML y CSS.</td></tr>
+    <tr><td>Menú de algoritmos</td><td>FCFS, SJF, SRTF, Round Robin y Selfish Round Robin.</td></tr>
+    <tr><td>Más de cinco procesos</td><td>Inicia con siete procesos A-G.</td></tr>
+    <tr><td>Administrar cantidad</td><td>Permite agregar y eliminar filas.</td></tr>
+    <tr><td>Tiempo de llegada</td><td>Entero entre 0 y 20.</td></tr>
+    <tr><td>CPU</td><td>Entero entre 1 y 20.</td></tr>
+    <tr><td>Quantum</td><td>Campo editable entre 1 y 20 para Round Robin.</td></tr>
+    <tr><td>Colores</td><td>Diagrama y fila CPU con color por proceso.</td></tr>
+    <tr><td>Promedios</td><td>Final, retorno, espera, T Promedio y promedios generales.</td></tr>
+    <tr><td>Ejecutable</td><td>Build web en <code>dist/proyectoSO</code>, ejecutable con el servidor local.</td></tr>
+    <tr><td>Código fuente</td><td>Carpeta <code>src/</code> y documento <code>docs/SCRIPT-FUENTE.md</code>.</td></tr>
+  </tbody></table>
+  <p>Proyecto individual. Repositorio: <a href="https://github.com/Byronv97/proyectoSO">github.com/Byronv97/proyectoSO</a>.</p>
+
+  <h2>Caso de entrada y resultado</h2>
+  <p>El ejemplo inicia con A-G: A(2,1), B(3,5), C(0,4), D(5,3), E(9,2), F(7,4) y G(12,1).</p>
+  <p>Para SRTF, la secuencia de CPU de referencia es:</p>
+  <pre>C C A C C D D D F E E F G F F B B B B B</pre>
+  <table class="requirements"><thead><tr><th>Proceso</th><th>T Final</th><th>T Retorno</th><th>T Espera</th><th>T Promedio</th></tr></thead><tbody>
+    <tr><td>A</td><td>3</td><td>1</td><td>0</td><td>1</td></tr><tr><td>B</td><td>20</td><td>17</td><td>12</td><td>3.40</td></tr><tr><td>C</td><td>5</td><td>5</td><td>1</td><td>1.25</td></tr><tr><td>D</td><td>8</td><td>3</td><td>0</td><td>1</td></tr><tr><td>E</td><td>11</td><td>2</td><td>0</td><td>1</td></tr><tr><td>F</td><td>15</td><td>8</td><td>4</td><td>2</td></tr><tr><td>G</td><td>13</td><td>1</td><td>0</td><td>1</td></tr><tr><td><strong>Promedios</strong></td><td>-</td><td>5.29</td><td>2.43</td><td>1.52</td></tr>
+  </tbody></table>
 
   <h2>2. Algoritmos</h2>
   <h3>FCFS</h3><p>Ejecuta los procesos según su orden de llegada y no interrumpe el proceso actual.</p>

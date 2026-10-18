@@ -634,7 +634,7 @@ h3 { color: #102a43; margin: 7px 0 0; font-size: 19px; }
 .algorithm-number { color: #df5a40; display: block; font: 500 11px 'DM Mono', monospace; margin-bottom: 35px; }
 .algorithm-card strong { display: block; font-size: 16px; }
 .algorithm-card small { opacity: .7; display: block; margin-top: 5px; }
-.workspace, .results-section { margin-top: 64px; }
+.workspace, .results-section { max-width: 1280px; margin-top: 64px; margin-left: 30px; margin-right: auto; }
 .workspace-grid { display: grid; grid-template-columns: 1.7fr 1fr; gap: 15px; }
 .panel { background: white; border: 1px solid #d9e1dc; padding: 24px; }
 .panel-top, .panel-actions, .results-heading, .simulation-controls { display: flex; justify-content: space-between; align-items: center; gap: 15px; }
@@ -681,6 +681,7 @@ input:focus { border-color: #df5a40; }
 .time-cell { border-left: 1px solid #edf0ed; min-height: 34px; display: flex; justify-content: center; align-items: center; color: #17324d; font: 500 11px 'DM Mono', monospace; }.time-cell.not-arrived { background: #fafbf9; }.time-cell.running { color: #17324d; font-weight: 800; }.time-cell.current-step { box-shadow: inset 0 0 0 3px #102a43; position: relative; z-index: 1; }.cpu-row { border-top: 2px solid #17324d; margin-top: 7px; padding-top: 4px; }.cpu-cell { min-height: 30px; color: #17324d; }
 .results-heading { margin: 44px 0 15px; }.metrics-table th, .metrics-table td { padding: 11px 9px; border-bottom: 1px solid #d9e1dc; text-align: right; white-space: nowrap; }.metrics-table th:first-child, .metrics-table td:first-child { text-align: left; }.metrics-table th { background: #edf2ed; padding-top: 13px; padding-bottom: 13px; }.metrics-table tbody tr:hover { background: #f8faf7; }.strong-cell { font-weight: 800; }.average-cell { color: #df5a40; font-weight: 800; }.metrics-table tfoot td { background: #17324d; color: white; font-weight: 700; }.metrics-table tfoot .average-cell { color: #ff9a84; }.process-dot { margin-right: 8px; }
 footer { border-top: 1px solid #cad6d3; color: #8a9695; font-size: 11px; margin-top: 70px; padding-top: 18px; }
+@media (max-width: 1350px) { .workspace, .results-section { margin-left: 0; margin-right: 0; } }
 @media (max-width: 900px) { .algorithm-grid { grid-template-columns: repeat(2, 1fr); }.workspace-grid { grid-template-columns: 1fr; }.state-strip { grid-template-columns: 1fr 1fr; }.current-process { grid-column: span 2; } }
 @media (max-width: 560px) { .app-shell { padding: 28px 16px; }.algorithm-grid { grid-template-columns: 1fr; }.algorithm-card { min-height: 100px; }.algorithm-number { margin-bottom: 18px; }.panel { padding: 17px; }.panel-top { align-items: flex-start; flex-direction: column; }.section-heading { gap: 10px; }.state-strip { grid-template-columns: 1fr; }.current-process { grid-column: auto; }.simulation-controls { align-items: flex-start; flex-direction: column; } }
 

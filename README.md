@@ -125,6 +125,7 @@ y diagrama, Round Robin y Selfish Round Robin.
 
 ## Documentación de entrega
 
+- `docs/DOCUMENTACION.pdf`: versión PDF lista para entregar.
 - `docs/DOCUMENTACION.html`: documento visual para abrir en el navegador o Word e imprimir a PDF.
 - `docs/DOCUMENTACION.md`: versión editable en Markdown.
 - `docs/SCRIPT-FUENTE.md`: código fuente principal en un documento único.

@@ -114,6 +114,21 @@ npm run build
 
 La salida se genera en `dist/proyectoSO/`.
 
+## Versión Streamlit
+
+El proyecto también incluye una versión equivalente en Python para levantar la
+aplicación con Streamlit. La versión Angular original se mantiene sin cambios.
+
+```bash
+python -m venv .venv
+.venv\Scripts\python -m pip install -r requirements.txt
+.venv\Scripts\streamlit.exe run streamlit_app.py
+```
+
+Streamlit abre la aplicación en el navegador, normalmente en
+`http://localhost:8501/`. Esta modalidad funciona como ejecutable local web;
+no genera por sí sola un `.exe` independiente.
+
 ## Pruebas
 
 ```bash

@@ -73,10 +73,8 @@ Combina prioridades crecientes con turnos de Round Robin.
 - Los aceptados se ejecutan con quantum fijo de `1`.
 - La simulación muestra las prioridades de cada grupo.
 
-La variante implementada reproduce la lógica reconstruida del material de clase.
-La tabla original contenía algunos resultados inconsistentes, por lo que el
-programa evita esperas negativas y calcula nuevamente las métricas a partir del
-recorrido real de la CPU.
+La variante implementa la lógica de prioridades descrita en el material de clase
+y calcula las métricas a partir del recorrido real de la CPU.
 
 ## Métricas calculadas
 

@@ -107,9 +107,8 @@ en `+1` por unidad, mientras que los nuevos aumentan en `+2`. Un proceso nuevo
 entra a aceptados cuando alcanza la prioridad mínima aceptada. El quantum de la
 variante implementada es `1`.
 
-La variante se reconstruyó a partir del material de clase proporcionado. El
-Excel de referencia tenía algunas inconsistencias, por lo que el programa
-calcula nuevamente los resultados y nunca permite esperas negativas.
+La variante implementa la lógica de prioridades descrita en el material de
+clase y calcula las métricas a partir del recorrido real de la CPU.
 
 ## 4. Flujo de uso
 
@@ -231,3 +230,19 @@ npm run export:source
 ```
 
 El resultado se guarda en `docs/SCRIPT-FUENTE.md`.
+
+## 11. Acceso al programa y código fuente
+
+El proyecto CPU Scheduler Lab fue desarrollado originalmente con Angular 21 y
+TypeScript. Adicionalmente, se implementó una versión en Python utilizando
+Streamlit para facilitar la ejecución y evaluación del simulador desde un
+navegador, sin necesidad de instalar herramientas de desarrollo.
+
+**Aplicación web:** [proyecto-s-o.streamlit.app](https://proyecto-s-o.streamlit.app/)
+
+**Repositorio del proyecto:** [github.com/Byronv97/proyectoSO](https://github.com/Byronv97/proyectoSO)
+
+**Documento del código fuente:** [SCRIPT-FUENTE.md](https://github.com/Byronv97/proyectoSO/blob/main/docs/SCRIPT-FUENTE.md)
+
+El repositorio incluye ambas implementaciones, su código fuente y las
+instrucciones necesarias para ejecutarlas localmente.

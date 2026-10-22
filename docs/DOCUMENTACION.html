@@ -26,9 +26,8 @@
     .requirements th { background: #edf2ed; color: #617483; font-family: monospace; font-size: 11px; text-transform: uppercase; }
     code { background: #edf2ed; padding: 2px 5px; }
     pre { background: #17324d; color: #e8eeea; padding: 16px; overflow-x: auto; }
-    .note { border-left: 4px solid #df5a40; background: #fff4f0; padding: 12px 16px; }
     footer { border-top: 1px solid #d9e1dc; color: #71808a; margin-top: 45px; padding-top: 15px; font-size: 12px; }
-    @media print { body { background: #fff; } main { padding: 0; } .cover { min-height: 920px; } }
+     @media print { body { background: #fff; } main { padding: 0; } .cover { min-height: 920px; } h2.access-heading { page-break-before: always; } }
   </style>
 </head>
 <body>
@@ -105,7 +104,13 @@ npm test -- --watch=false</pre>
   <p>El motor se encuentra en <code>src/app/scheduler.ts</code>. La vista y el estado Angular están en <code>src/app/app.ts</code>, <code>src/app/app.html</code> y <code>src/app/app.css</code>. Las pruebas están en <code>src/app/scheduler.spec.ts</code> y <code>src/app/app.spec.ts</code>.</p>
   <p>El documento completo del código se genera mediante <code>npm run export:source</code> y se guarda como <code>docs/SCRIPT-FUENTE.md</code>.</p>
 
-  <div class="note"><strong>Nota sobre Selfish Round Robin:</strong> la variante implementada se basa en los pasos reconstruidos del material de clase. El Excel de referencia contenía resultados inconsistentes, por lo que la aplicación recalcula todas las métricas.</div>
+  <h2 class="access-heading">9. Acceso al programa y código fuente</h2>
+  <p>El proyecto CPU Scheduler Lab fue desarrollado originalmente con Angular 21 y TypeScript. Adicionalmente, se implementó una versión en Python utilizando Streamlit para facilitar la ejecución y evaluación del simulador desde un navegador, sin necesidad de instalar herramientas de desarrollo.</p>
+  <p><strong>Aplicación web:</strong> <a href="https://proyecto-s-o.streamlit.app/">proyecto-s-o.streamlit.app</a></p>
+  <p><strong>Repositorio del proyecto:</strong> <a href="https://github.com/Byronv97/proyectoSO">github.com/Byronv97/proyectoSO</a></p>
+  <p><strong>Documento del código fuente:</strong> <a href="https://github.com/Byronv97/proyectoSO/blob/main/docs/SCRIPT-FUENTE.md">SCRIPT-FUENTE.md</a></p>
+  <p>El repositorio incluye ambas implementaciones, su código fuente y las instrucciones necesarias para ejecutarlas localmente.</p>
+
   <footer>CPU Scheduler Lab · Angular 21 · documentación técnica del proyecto</footer>
 </main>
 </body>

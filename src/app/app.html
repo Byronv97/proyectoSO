@@ -92,17 +92,17 @@
 
         <!-- Diagrama temporal de procesos y CPU -->
         <div class="timeline-panel"><div class="timeline-scroll"><div class="timeline" [style.--time-count]="timelineWidth()">
-           <div class="timeline-axis"><div class="row-label">Proceso</div>@for (time of axisSlots(); track time) { <span>{{ time }}</span> }</div>
-           <!-- Una fila por proceso -->
-           @for (process of processes(); track process.id; let index = $index) {
+          <div class="timeline-axis"><div class="row-label">Proceso</div>@for (time of axisSlots(); track time) { <span>{{ time }}</span> }</div>
+          <!-- Una fila por proceso -->
+          @for (process of processes(); track process.id; let index = $index) {
             <div class="timeline-row"><div class="row-label"><i [style.background]="processColor(index)"></i>{{ process.id }}</div>
               @for (time of timeSlots(); track time) {
                 <div class="time-cell" [class.running]="visibleProcessAt(time) === process.id" [class.current-step]="cellIsCurrent(time, process.id)" [class.not-arrived]="time < process.arrival" [style.background]="visibleProcessAt(time) === process.id ? processColor(index) : null">{{ visibleProcessAt(time) === process.id ? process.id : '' }}</div>
               }
             </div>
           }
-           <!-- Fila que resume el uso de la CPU -->
-           <div class="timeline-row cpu-row"><div class="row-label">CPU</div>
+          <!-- Fila que resume el uso de la CPU -->
+          <div class="timeline-row cpu-row"><div class="row-label">CPU</div>
             @for (time of timeSlots(); track time) {
               @let runningId = visibleProcessAt(time);
               <div class="time-cell cpu-cell" [class.current-step]="isStepping() && time === activeStep()" [style.background]="runningId ? processColor(processIndex(runningId)) : null">{{ runningId ?? '·' }}</div>

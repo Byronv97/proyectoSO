@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Exposición - CPU Scheduler Lab</title>
+  <style>
+    @page { size: A4; margin: 16mm; }
+    :root {
+      color: #17324d;
+      font-family: Arial, sans-serif;
+      line-height: 1.5;
+      --navy: #17324d;
+      --blue: #102a43;
+      --orange: #df5a40;
+      --green: #eaf1eb;
+      --line: #d9e1dc;
+      --muted: #617483;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: #f5f7f4; }
+    main { max-width: 1000px; margin: auto; background: white; padding: 42px 58px; }
+    .cover { min-height: 620px; display: flex; flex-direction: column; justify-content: center; border-bottom: 1px solid var(--line); }
+    .eyebrow { color: var(--orange); font: 600 12px monospace; letter-spacing: .14em; }
+    h1 { color: var(--blue); font-size: 55px; line-height: 1; margin: 24px 0 18px; letter-spacing: -.05em; }
+    h1 span, h2 { color: var(--orange); }
+    h2 { border-bottom: 2px solid var(--orange); padding-bottom: 7px; margin-top: 42px; }
+    h3 { color: var(--blue); margin-top: 26px; }
+    p, li { font-size: 15px; }
+    .subtitle { color: var(--muted); font-size: 20px; max-width: 680px; }
+    .meta { color: #71808a; margin-top: 40px; font-family: monospace; }
+    .lead { border-left: 4px solid var(--orange); background: #fff4f0; padding: 14px 18px; }
+    .flow { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 22px 0; }
+    .flow div { background: var(--green); border-top: 4px solid var(--orange); padding: 14px 10px; font-weight: 700; text-align: center; }
+    .flow small { display: block; color: var(--muted); font-weight: 400; margin-top: 6px; }
+    .algorithm { border: 1px solid var(--line); padding: 16px 18px; margin: 14px 0; page-break-inside: avoid; }
+    .algorithm h3 { margin: 0 0 6px; }
+    .tag { display: inline-block; background: var(--navy); color: white; padding: 3px 8px; font: 11px monospace; margin-bottom: 8px; }
+    pre { background: var(--navy); color: #e8eeea; padding: 15px 17px; overflow-x: auto; font: 12px/1.55 Consolas, monospace; white-space: pre-wrap; }
+    code { background: #edf2ed; padding: 2px 5px; font-family: Consolas, monospace; }
+    pre code { background: transparent; padding: 0; }
+    .two-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+    .panel { background: #f5f7f4; border: 1px solid var(--line); padding: 15px; }
+    .panel h3 { margin-top: 0; }
+    table { width: 100%; border-collapse: collapse; margin: 18px 0 24px; font-size: 14px; }
+    th, td { border-bottom: 1px solid var(--line); padding: 9px 10px; text-align: left; }
+    th { background: #edf2ed; color: var(--muted); font: 600 11px monospace; text-transform: uppercase; }
+    .timeline { display: flex; overflow-x: auto; margin: 18px 0; }
+    .timeline span { min-width: 42px; padding: 11px 5px; border: 1px solid white; text-align: center; font: 700 12px monospace; }
+    .c { background: #f3e319; }.a { background: #9bcf53; }.d { background: #f28c28; }.f { background: #16a765; }.e { background: #7d3bb2; color: white; }.g { background: #83c6d9; }.b { background: #ef4444; }
+    .note { background: #edf2ed; border-left: 4px solid #39725e; padding: 13px 16px; }
+    .steps li { margin: 7px 0; }
+    a { color: #0563c1; }
+    footer { border-top: 1px solid var(--line); color: #71808a; margin-top: 45px; padding-top: 15px; font-size: 12px; }
+    @media print {
+      body { background: white; }
+      main { padding: 0; }
+      .cover { min-height: 900px; }
+      .algorithm { break-inside: avoid; }
+      pre { break-inside: avoid; }
+    }
+    @media (max-width: 700px) {
+      main { padding: 26px 18px; }
+      h1 { font-size: 42px; }
+      .flow, .two-columns { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <section class="cover">
+    <div class="eyebrow">SISTEMAS OPERATIVOS / EXPOSICIÓN TÉCNICA</div>
+    <h1>CPU Scheduler <span>Lab</span></h1>
+    <p class="subtitle">Cómo funcionan los algoritmos de planificación y cómo el programa genera el diagrama de ejecución.</p>
+    <p class="meta">Angular 21 · TypeScript · Python · Streamlit</p>
+  </section>
+
+  <h2>1. Objetivo del proyecto</h2>
+  <p>CPU Scheduler Lab es un simulador educativo de planificación de procesos. Permite ingresar procesos, seleccionar un algoritmo y observar qué proceso ocupa la CPU en cada unidad de tiempo.</p>
+  <p class="lead"><strong>Idea principal:</strong> el algoritmo toma decisiones, el <code>timeline</code> guarda esas decisiones y la interfaz convierte el timeline en un diagrama visual.</p>
+
+  <h2>2. Arquitectura</h2>
+  <p>El proyecto tiene una versión original en Angular y una versión equivalente en Python con Streamlit para el despliegue web. En ambas versiones la lógica se divide en motor de planificación e interfaz.</p>
+  <div class="flow">
+    <div>Entrada<small>Procesos y configuración</small></div>
+    <div>Validación<small>Datos correctos</small></div>
+    <div>Simulación<small>Algoritmo seleccionado</small></div>
+    <div>Timeline<small>CPU por instante</small></div>
+    <div>Vista<small>Diagrama y métricas</small></div>
+  </div>
+  <div class="two-columns">
+    <div class="panel"><h3>Versión Angular</h3><p><code>src/app/scheduler.ts</code> contiene el motor. <code>src/app/app.ts</code> administra el estado y <code>src/app/app.html</code> genera la vista.</p></div>
+    <div class="panel"><h3>Versión Streamlit</h3><p><code>streamlit_scheduler.py</code> contiene el motor Python y <code>streamlit_app.py</code> genera la interfaz desplegada.</p></div>
+  </div>
+
+  <h2>3. Modelo de datos</h2>
+  <p>Cada proceso tiene un identificador, un tiempo de llegada y un tiempo de CPU:</p>
+  <pre><code>@dataclass(frozen=True)
+class ProcessInput:
+    id: str
+    arrival: int
+    burst: int</code></pre>
+  <p>Durante la ejecución, el programa mantiene el tiempo restante, el proceso que está utilizando la CPU y el timeline.</p>
+  <pre><code>remaining = {process.id: process.burst for process in ordered}
+timeline = []
+steps = []</code></pre>
+
+  <h2>4. Flujo de una simulación</h2>
+  <ol class="steps">
+    <li>El usuario edita los procesos y selecciona un algoritmo.</li>
+    <li>La interfaz valida identificadores, llegadas, tiempos de CPU y quantum.</li>
+    <li>La función <code>simulate</code> envía los datos al algoritmo correspondiente.</li>
+    <li>El motor avanza una unidad de tiempo por cada iteración.</li>
+    <li>En cada iteración se selecciona un proceso y se descuenta una unidad de CPU.</li>
+    <li>El estado se guarda en <code>timeline</code> y <code>steps</code>.</li>
+    <li>La interfaz utiliza esos datos para dibujar el diagrama y calcular las métricas.</li>
+  </ol>
+  <pre><code>def simulate(processes, algorithm, quantum=1):
+    if algorithm == "srr":
+        return simulate_selfish(processes)
+    return simulate_standard(processes, algorithm, quantum)</code></pre>
+
+  <h2>5. Algoritmos implementados</h2>
+
+  <div class="algorithm">
+    <span class="tag">NO EXPROPIATIVO</span>
+    <h3>FCFS - First Come, First Served</h3>
+    <p>Selecciona el proceso disponible que llegó primero. Cuando comienza, continúa hasta terminar.</p>
+    <pre><code>if algorithm == "fcfs":
+    running = available[0].id
+    non_preemptive = running</code></pre>
+  </div>
+
+  <div class="algorithm">
+    <span class="tag">NO EXPROPIATIVO</span>
+    <h3>SJF - Shortest Job First</h3>
+    <p>Selecciona el proceso disponible con menor duración total de CPU. Tampoco interrumpe el proceso actual.</p>
+    <pre><code>running = min(
+    available,
+    key=lambda process: (process.burst, process.arrival)
+).id</code></pre>
+  </div>
+
+  <div class="algorithm">
+    <span class="tag">EXPROPIATIVO</span>
+    <h3>SRTF - Shortest Remaining Time First</h3>
+    <p>Revisa en cada unidad cuál proceso tiene menor tiempo restante. Si llega un proceso más corto, puede interrumpir al proceso actual.</p>
+    <pre><code>running = min(
+    available,
+    key=lambda process: (
+        remaining[process.id],
+        process.arrival
+    )
+).id</code></pre>
+  </div>
+
+  <div class="algorithm">
+    <span class="tag">COLA CIRCULAR</span>
+    <h3>Round Robin</h3>
+    <p>Reparte la CPU utilizando un quantum. Cuando el proceso consume el quantum y no termina, vuelve al final de la cola.</p>
+    <pre><code>queue.extend(arrivals)
+
+if running and quantum_used >= quantum:
+    queue.append(running)
+    running = None
+
+if running is None and queue:
+    running = queue.pop(0)</code></pre>
+  </div>
+
+  <div class="algorithm">
+    <span class="tag">PRIORIDADES DINÁMICAS</span>
+    <h3>Selfish Round Robin</h3>
+    <p>Mantiene grupos de procesos aceptados y nuevos. Los aceptados aumentan su prioridad en uno y los nuevos en dos. Cada turno utiliza una unidad de CPU.</p>
+    <pre><code>for process_id in accepted:
+    priorities[process_id] += 1
+
+for process_id in newcomers:
+    priorities[process_id] += 2</code></pre>
+  </div>
+
+  <h2>6. Cómo se genera el diagrama</h2>
+  <p>El motor agrega el proceso seleccionado al timeline antes de consumir una unidad:</p>
+  <pre><code>timeline.append(running)
+
+if running:
+    remaining[running] -= 1
+
+steps.append(step)
+time += 1</code></pre>
+  <p>Si la CPU no tiene ningún proceso disponible, se guarda <code>None</code>. Por eso el diagrama también puede representar períodos de CPU ociosa.</p>
+
+  <h3>Representación del timeline</h3>
+  <div class="timeline">
+    <span class="c">C</span><span class="c">C</span><span class="a">A</span><span class="c">C</span><span class="c">C</span><span class="d">D</span><span class="d">D</span><span class="d">D</span><span class="f">F</span><span class="e">E</span><span class="e">E</span><span class="f">F</span><span class="g">G</span><span class="f">F</span><span class="f">F</span><span class="b">B</span><span class="b">B</span><span class="b">B</span><span class="b">B</span><span class="b">B</span>
+  </div>
+  <p>Angular recorre cada proceso y cada instante para construir las celdas:</p>
+  <pre><code>@for (process of processes(); track process.id) {
+  @for (time of timeSlots(); track time) {
+    &lt;div class="time-cell"
+      [class.running]="visibleProcessAt(time) === process.id"
+      [style.background]="processColor(index)"&gt;
+    &lt;/div&gt;
+  }
+}</code></pre>
+  <p>La función <code>visibleProcessAt</code> oculta las unidades futuras cuando se utiliza el modo paso a paso.</p>
+  <pre><code>protected visibleProcessAt(time: number) {
+  const timeline = this.result()?.timeline ?? [];
+  return this.isStepping() &amp;&amp; time &gt; this.activeStep()
+    ? null
+    : timeline[time] ?? null;
+}</code></pre>
+
+  <h2>7. Métricas</h2>
+  <p>El sistema busca la última posición donde aparece cada proceso en el timeline y calcula:</p>
+  <pre><code>finish = last_position + 1
+turnaround = finish - arrival
+waiting = turnaround - burst
+normalized = turnaround / burst</code></pre>
+  <table>
+    <thead><tr><th>Métrica</th><th>Significado</th></tr></thead>
+    <tbody>
+      <tr><td>T Final</td><td>Instante en que termina el proceso.</td></tr>
+      <tr><td>T Retorno</td><td>Tiempo desde la llegada hasta la finalización.</td></tr>
+      <tr><td>T Espera</td><td>Tiempo en que el proceso espera CPU.</td></tr>
+      <tr><td>T Promedio</td><td>Retorno dividido entre el tiempo de CPU.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>8. Ejemplo recomendado para la exposición</h2>
+  <p>Se recomienda utilizar SRTF con los procesos de ejemplo A-G. La secuencia obtenida es:</p>
+  <pre><code>C C A C C D D D F E E F G F F B B B B B</code></pre>
+  <table>
+    <thead><tr><th>Instante</th><th>Decisión</th></tr></thead>
+    <tbody>
+      <tr><td>0 y 1</td><td>C comienza porque es el proceso disponible.</td></tr>
+      <tr><td>2</td><td>A llega con duración 1 y desplaza temporalmente a C.</td></tr>
+      <tr><td>3 y 4</td><td>C continúa porque tiene menos tiempo restante que B.</td></tr>
+      <tr><td>9</td><td>E llega y se selecciona porque es más corto que F.</td></tr>
+      <tr><td>12</td><td>G llega con duración 1 y se ejecuta antes que F.</td></tr>
+      <tr><td>15 a 19</td><td>B termina la simulación con las unidades restantes.</td></tr>
+    </tbody>
+  </table>
+
+  <h2>9. Guion oral</h2>
+  <p class="lead">“CPU Scheduler Lab es un simulador de planificación de procesos. El usuario introduce procesos y selecciona un algoritmo. El programa valida los datos y ejecuta una simulación unidad por unidad. En cada instante se selecciona un proceso, se descuenta una unidad de CPU y se guarda la decisión en un timeline. Después, la interfaz recorre ese timeline para construir una fila por proceso y una fila general de CPU. Finalmente calcula los tiempos de finalización, retorno y espera.”</p>
+  <p>Para comparar algoritmos, se puede explicar que FCFS y SJF son no expropiativos, SRTF es expropiativo, Round Robin utiliza una cola con quantum y Selfish Round Robin utiliza prioridades dinámicas.</p>
+
+  <h2>10. Enlaces del proyecto</h2>
+  <p><strong>Aplicación Streamlit:</strong> <a href="https://proyecto-s-o.streamlit.app/">proyecto-s-o.streamlit.app</a></p>
+  <p><strong>Repositorio:</strong> <a href="https://github.com/Byronv97/proyectoSO">github.com/Byronv97/proyectoSO</a></p>
+  <p><strong>Documentación:</strong> <a href="DOCUMENTACION.pdf">DOCUMENTACION.pdf</a> · <a href="DOCUMENTACION.docx">DOCUMENTACION.docx</a></p>
+
+  <footer>CPU Scheduler Lab · Exposición técnica · Angular 21, TypeScript, Python y Streamlit</footer>
+</main>
+</body>
+</html>
